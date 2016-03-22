@@ -16,6 +16,17 @@ sbt> package
 
 ### API
 
+#### 配置日志
+
+```
+val cfg = new JsLoggerConfiguration()
+cfg.appName = "test"  //设置程序名字
+cfg.cacheThreshold = 16 //设置缓存的大小， 当系统日志个数大于等于这个数字时会批量写入文件
+cfg.flushInterval = 3600  //批量写入日志的时间间隔，单位秒
+cfg.FSYNC_WAL = false   //批量写入时是否同步写，即等待数据写入到磁盘再返回， 这个设置true也不会阻塞调用者。为保证数据全部写入， 建议设置true。
+cfg.savePath = "./testlog"  //日志存储的路径
+```
+
 #### 初始化
 
 ```
@@ -24,6 +35,7 @@ def apply(): Unit = {}  //使用默认的配置初始化系统
 ```
 
 在系统没有初始化的情况下，jslog系统不可用！所以在使用jslog系统前必须先使用上述两个函数初始化系统。
+
 
 #### 日志记录API
 
@@ -36,8 +48,11 @@ def warningLog(obj: AnyRef, logMsg: String = "", flush: Boolean = false) = {}
 def errorLog(obj: AnyRef, logMsg: String = "", exceStackTrace: Throwable = NoExceStackTrace, flush: Boolean = false) = {}
 ```
 obj： 产生日志的对象
+
 logMsg： 日志信息
+
 flush： 立刻刷写的标志
+
 exceStackTrace： 异常栈信息
 
 当flush为true的时候， 这时不管系统缓存是否已满、不管是否到达批量写入文件的时间，系统的缓存的日志都会立刻写入文件。
