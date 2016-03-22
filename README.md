@@ -7,11 +7,29 @@ jslog的日志等级分为info、debug、warning、error。这个日志系统功
 
 ### 安装jslog
 
-由于本项目还没有提交到mvn，所以只能先下载到本地编译打包，然后将打包的jar放到您项目的lib里。
+#### 安装jslog依赖
+
+```
+libraryDependencies ++= Seq(
+  "com.typesafe.akka" %% "akka-actor" % AkkaVersion,
+  "com.typesafe.akka" %% "akka-testkit" % AkkaVersion,
+  "org.scalatest" % "scalatest_2.10" % "3.0.0-M15"
+)
+```
+
+#### 本地编译
+
+可以先下载到本地编译打包，然后将打包的jar放到您项目的lib里。
 
 ```
 $sbt compile
 sbt> package
+```
+
+#### mvn安装
+
+```
+libraryDependencies += "top.spoofer" % "jslog_2.10" % "1.0"
 ```
 
 ### API
